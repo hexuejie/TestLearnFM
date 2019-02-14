@@ -14,7 +14,7 @@
 //#import "GLMusicPlayer.h"
 //#import <LearnFM/LearnFM.h>
 #import "ColorCircleView.h"
-@interface ViewController ()
+@interface ViewController ()<GLMusicPlayViewControllerDelegate>
 
 @end
 
@@ -23,6 +23,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    UITextField *testField = [[UITextField alloc]initWithFrame:CGRectMake(100, 200, 200, 50)];
+    testField.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:testField];
     
     self.title = @"测试";
     UIButton * btn  = [[UIButton alloc]init];
@@ -42,6 +46,7 @@
 //    ColorCircleView *circleView = [[ColorCircleView alloc]initWithFrame:CGRectMake(100, 250, 200, 200)];
 //    circleView.circleArray = @[dic1,dic2,dic4,dic3];
 //    [self.view addSubview:circleView];
+//    [UIApplication sharedApplication].keyWindow.frame = CGRectMake(0, 30, 375, 812-30);
 }
 
 
@@ -49,12 +54,20 @@
 - (void)btnAction:(id)sender{
     
     
-        GLMusicPlayViewController * playerVc = [GLMusicPlayViewController new];
+    GLMusicPlayViewController * playerVc = [GLMusicPlayViewController new];
+    playerVc.delegate = self;
+//    [GLMusicPlayer defaultPlayer].authToken = @"e71493f8e7ff4d2e9d3885ca784bc824";
+//    [GLMusicPlayer defaultPlayer].studentid = @"0d9371049f224be081e19a0266209f18";
+    [GLMusicPlayer defaultPlayer].requestFM = @"http://test.api.p.ajia.cn:8080/ajiau-api/ParentServer/";
+    playerVc.backBlock = ^(BOOL needLogin) {
+        [GLMusicPlayer defaultPlayer].authToken = @"e71493f8e7ff4d2e9d3885ca784bc824";
+        [GLMusicPlayer defaultPlayer].studentid = @"0d9371049f224be081e19a0266209f18";
+    };
+    playerVc.loginBlock = ^{//登录
+        [GLMusicPlayer defaultPlayer].authToken = @"e71493f8e7ff4d2e9d3885ca784bc824";
+        [GLMusicPlayer defaultPlayer].studentid = @"0d9371049f224be081e19a0266209f18";
+    };
     
-//        [GLMusicPlayer defaultPlayer].authToken = @"310680911aae4e96b95f73cd5e834601";
-//        [GLMusicPlayer defaultPlayer].studentid = @"f9a6f4c6574c4b70aeeeec043643ada5";
-//    [GLMusicPlayer defaultPlayer].requestFM = @"http://192.168.1.181:8050/ParentServer/";
-//
 //    [GLMusicPlayer defaultPlayer].playingAlbumId = @"7d44d6fd-190c-4aa2-ae94-0257c01bc958";
 //    [GLMusicPlayer defaultPlayer].playingMusicId = @"ab8505d5305d424081d1f698fd5390e1";
 ////    a475b22b-bd23-418c-99c9-fb0ac37c7262   db8adf22-cec0-46e2-aabf-263fef3bdc11
@@ -62,4 +75,7 @@
         [self presentViewController:merchantNavi animated:YES completion:nil];
 }
 
+-(void)finishDismiss:(GLMusicPlayViewController *)ViewController{
+    NSLog(@"1111");
+}
 @end

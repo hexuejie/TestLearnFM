@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A112C62721C883050016E320 /* XJTokenTipsView.m in Sources */ = {isa = PBXBuildFile; fileRef = A112C62621C883050016E320 /* XJTokenTipsView.m */; };
 		A113D67F218AEB320062982C /* ColorCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = A113D67E218AEB320062982C /* ColorCircleView.m */; };
 		A11410672195366300FA65BB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A11410662195366200FA65BB /* UIKit.framework */; };
 		A11410692195366B00FA65BB /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A11410682195366B00FA65BB /* CoreFoundation.framework */; };
@@ -166,6 +167,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A112C62521C883050016E320 /* XJTokenTipsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XJTokenTipsView.h; sourceTree = "<group>"; };
+		A112C62621C883050016E320 /* XJTokenTipsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XJTokenTipsView.m; sourceTree = "<group>"; };
 		A113D67D218AEB320062982C /* ColorCircleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorCircleView.h; sourceTree = "<group>"; };
 		A113D67E218AEB320062982C /* ColorCircleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorCircleView.m; sourceTree = "<group>"; };
 		A11410662195366200FA65BB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -698,6 +701,8 @@
 				A1354FE8219D62620089FB0B /* XJMusicTableViewCell.m */,
 				A1354FE9219D62620089FB0B /* GKWYMusicCoverView.m */,
 				A1354FEA219D62620089FB0B /* GLMusicPlayerControlView.h */,
+				A112C62521C883050016E320 /* XJTokenTipsView.h */,
+				A112C62621C883050016E320 /* XJTokenTipsView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1199,6 +1204,7 @@
 				A13550D0219D62620089FB0B /* XJBaseHTTPRequest.m in Sources */,
 				A13550E3219D62620089FB0B /* audio_stream.cpp in Sources */,
 				A135512C219D62620089FB0B /* NSImage+WebCache.m in Sources */,
+				A112C62721C883050016E320 /* XJTokenTipsView.m in Sources */,
 				A1355119219D62620089FB0B /* AFImageDownloader.m in Sources */,
 				A13550F1219D62620089FB0B /* MBProgressHUD.m in Sources */,
 				A1355133219D62620089FB0B /* GLMusicPlayViewController.m in Sources */,

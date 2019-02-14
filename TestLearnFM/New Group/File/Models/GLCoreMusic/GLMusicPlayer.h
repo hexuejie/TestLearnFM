@@ -112,4 +112,5 @@ typedef NS_ENUM(NSInteger,GLLoopState){
 @property (nonatomic, strong) NSString *playingMusicId;
 @property (nonatomic, strong) NSString *playingAlbumId;
 
+@property (nonatomic, assign) BOOL isLocked;
 @end

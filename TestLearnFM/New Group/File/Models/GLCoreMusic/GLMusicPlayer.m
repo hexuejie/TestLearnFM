@@ -136,23 +136,10 @@
 #pragma mark == private method - 锁屏展示部分
 - (void)showLockScreenCurrentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime
 {
-    
-    //监听锁屏状态 lock=1则为锁屏状态
-    uint64_t locked;
-    __block int token = 0;
-    notify_register_dispatch("com.apple.springboard.lockstate",&token,dispatch_get_main_queue(),^(int t){
-    });
-    notify_get_state(token, &locked);
-    
-    //监听屏幕点亮状态 screenLight = 1则为变暗关闭状态
-    uint64_t screenLight;
-    __block int lightToken = 0;
-    notify_register_dispatch("com.apple.springboard.hasBlankedScreen",&lightToken,dispatch_get_main_queue(),^(int t){
-    });
-    notify_get_state(lightToken, &screenLight);
-    if (screenLight == 0 && locked == 1) {//
+    NSLog(@"isLocked   %ld",[GLMusicPlayer defaultPlayer].isLocked);
+    if ([GLMusicPlayer defaultPlayer].isLocked) {//
         NSMutableDictionary *musicInfoDict = [[NSMutableDictionary alloc] init];
-        
+
         UIImageView *albumImage = [UIImageView new];
         albumImage.contentMode = UIViewContentModeScaleAspectFill;
         [albumImage sd_setImageWithURL:[NSURL URLWithString:[GLMusicPlayer defaultPlayer].album.img] placeholderImage:[UIImage imageNamed:@"album_collection_background"]];

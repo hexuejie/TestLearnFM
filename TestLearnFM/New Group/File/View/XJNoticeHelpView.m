@@ -23,7 +23,7 @@
 - (void)initView
 {
 //    [super awakeFromNib];
-    _midLabel = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth/2-60, ScreenHeight/2-25, 120, 50)];
+    _midLabel = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth/2-60, ScreenHeight/2-25-64, 120, 50)];
     [self addSubview:_midLabel];
     _midLabel.font = [UIFont systemFontOfSize:15];
     _midLabel.textColor = [UIColor whiteColor];

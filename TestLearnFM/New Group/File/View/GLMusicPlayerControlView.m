@@ -9,9 +9,12 @@
 #import "GLMusicPlayerControlView.h"
 #import "XJMusicList.h"
 
+
 @interface GLMusicPlayerControlView ()
 
 @property (nonatomic, strong) NSMutableArray *collections;
+
+
 @end
 
 @implementation GLMusicPlayerControlView
@@ -28,7 +31,6 @@
 - (void)initView
 {
 //    [super awakeFromNib];
-    
     
     _slider = [[GLSlider alloc]initWithFrame:CGRectMake(57, 16, ScreenWidth-57*2, 26)];
     [self addSubview:_slider];
@@ -55,6 +57,7 @@
     _collectionButton = [[UIButton alloc]initWithFrame:CGRectMake(ScreenWidth-60-16, 53, 60, 60)];
     [self addSubview:_collectionButton];
     [_collectionButton setImage:[UIImage imageNamed:@"music_collection"] forState:UIControlStateNormal];
+    [_collectionButton setImage:[UIImage imageNamed:@"music_collection"] forState:UIControlStateHighlighted];
     [_collectionButton setImage:[UIImage imageNamed:@"music_collection_selected"] forState:UIControlStateSelected];
     [_collectionButton addTarget:self action:@selector(collectionSelectedClick:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -175,24 +178,23 @@
 }
 
 - (void)collectionSelectedClick:(UIButton *)button{
-    button.selected = !button.selected;
-    if(button.selected){
-        [self.noticeHelpView showNotice];
-        self.noticeHelpView.midLabel.text = @"收藏成功";
-//        [self.collections addObject:[GLMusicPlayer defaultPlayer].model];
-//        [self updateCollectionToFile];
-        
-        CAKeyframeAnimation *k = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-        k.values =  @[@(0.1),@(1.0),@(1.5)];
-        k.keyTimes = @[@(0.0),@(0.5),@(0.8),@(1.0)];
-        k.calculationMode = kCAAnimationLinear;
-        [button.layer addAnimation:k forKey:@"SHOW"];
-        
-    }else{
-        [self.noticeHelpView showNotice];
-        self.noticeHelpView.midLabel.text = @"取消收藏";
-        
+    
+    if ([GLMusicPlayer defaultPlayer].studentid == nil
+        ||[[GLMusicPlayer defaultPlayer].studentid isEqualToString:@""]
+        ) {///提醒登录
+        typeof(self) __weak weakSelf = self;
+        _tokentipView = [[XJTokenTipsView alloc]init];
+        _tokentipView.frame = [UIApplication sharedApplication].keyWindow.bounds;
+        [[UIApplication sharedApplication].keyWindow addSubview:_tokentipView];
+        _tokentipView.block = ^{
+            if ([weakSelf.delegate respondsToSelector:@selector(musicPlayerControlViewBack:)]){
+                [weakSelf.delegate musicPlayerControlViewBack:weakSelf];
+            }
+        };
+        return;
     }
+    
+    
     
     if ([self.delegate respondsToSelector:@selector(musicPlayerCollectionAction:)]){
         [self.delegate musicPlayerCollectionAction:self];

@@ -6,6 +6,7 @@
 //  Copyright © 2017年 高磊. All rights reserved.
 //
 
+#import "XJTokenTipsView.h"
 #import "GLMusicPlayViewController.h"
 #import "MBProgressHUD.h"
 #import "UIViewController+Extension.h"
@@ -210,7 +211,8 @@
 
     self.playingAlbumId = [GLMusicPlayer defaultPlayer].playingAlbumId;
     self.playingMusicId  = [GLMusicPlayer defaultPlayer].playingMusicId;
-    if (self.playingAlbumId) {
+    
+    if (self.playingAlbumId ) {
         if (![self lookoutPlayingRadioId:self.playingAlbumId music_id:self.playingMusicId isOut:YES]) {//判断是否传值过来
             //重新请求找
             [self testMedthLookout];
@@ -243,29 +245,7 @@
         __weak typeof(self) weakSelf = self;
         [self.request musicListRequestRadioId:self.playingAlbumId Success:^(id  _Nonnull object) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-    //        if (weakSelf.playingMusicId != nil) {
-    //            NSString *music_id = weakSelf.playingMusicId;
-    //
-    //            NSMutableArray *musciList = [[NSMutableArray alloc] init];
-    //            for (XJMusicList *temp in [GLMusicPlayer defaultPlayer].allArray) {
-    //                [musciList addObject:[NSURL URLWithString:temp.audioUrl]];
-    //                temp.isPlay = NO;
-    //            }
-    //            [GLMusicPlayer defaultPlayer].musicListArray = musciList;
-    //
-    //            for (int i = 0; i<[GLMusicPlayer defaultPlayer].allArray.count; i++) {
-    //                XJMusicList *tempMusic = [GLMusicPlayer defaultPlayer].allArray[i];
-    //
-    //                if ([tempMusic.music_id isEqualToString:music_id]) {
-    //                    tempMusic.isPlay = YES;
-    //                    [[GLMusicPlayer defaultPlayer] playMusicAtIndex:i];
-    //                    NSLog(@"music  ");
-    //
-    //                }
-    //            }
-    //        }else{
-    //            [weakSelf playFirstMusic:object];
-    //        }
+
             [weakSelf lookoutPlayingRadioId:weakSelf.playingAlbumId music_id:weakSelf.playingMusicId isOut:YES];
         } fail:^(FAILCODE stateCode, NSString * _Nonnull error) {
             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -445,10 +425,18 @@
     [super viewWillAppear:animated];
     [GLMusicPlayer defaultPlayer].glPlayerDelegate = self;
 
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:HexRGB(0x73b04c) size:CGSizeMake([UIScreen mainScreen].bounds.size.width, 64)] forBarMetrics:UIBarMetricsDefault];
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:HexRGB(0x73b04c) size:CGSizeMake([UIScreen mainScreen].bounds.size.width, 64)] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    
     if (_lrcTableView) {
         [self.lrcTableView reloadData];
         [self.playerControlView reloadPlayerControlViewSelected];
+    }
+    
+    
+    if ([UIApplication sharedApplication].delegate.window.frame.size.height == 812-30&&self.view.frame.size.width == 375)
+    {
+        self.navigationController.view.frame =  CGRectMake(0, -44, ScreenWidth, 782+44);
     }
 }
 
@@ -466,6 +454,8 @@
 
     self.title = [GLMusicPlayer defaultPlayer].album.name;
     self.coverView.imageURL = [GLMusicPlayer defaultPlayer].album.img;
+    
+    
 }
 
 #pragma mark == 控件功能
@@ -535,52 +525,92 @@
     }
 }
 
+-(void)musicPlayerCollection:(GLMusicPlayerControlView *)view State:(BOOL)state{
+    view.collectionButton.selected = state;
+    if(state){
+        [view.noticeHelpView showNotice];
+        view.noticeHelpView.midLabel.text = @"收藏成功";
+        
+        CAKeyframeAnimation *k = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+        k.values =  @[@(0.1),@(1.0),@(1.5)];
+        k.keyTimes = @[@(0.0),@(0.5),@(0.8),@(1.0)];
+        k.calculationMode = kCAAnimationLinear;
+        [view.collectionButton.layer addAnimation:k forKey:@"SHOW"];
+        
+    }else{
+        [view.noticeHelpView showNotice];
+        view.noticeHelpView.midLabel.text = @"取消收藏";
+    }
+}
+
+- (void)loginTips:(GLMusicPlayerControlView *)view{
+    typeof(self) __weak weakSelf = self;
+    view.tokentipView = [[XJTokenTipsView alloc]init];
+    view.tokentipView.tipContentLabel.text = @"账号已在其他设备登录，请重新登录！";
+    view.tokentipView.frame = [UIApplication sharedApplication].keyWindow.bounds;
+    [[UIApplication sharedApplication].keyWindow addSubview:view.tokentipView];
+    view.tokentipView.block = ^{
+        [weakSelf musicPlayerControlViewBack:view];
+    };
+}
+
 #pragma mark 收藏
 -(void)musicPlayerCollectionAction:(GLMusicPlayerControlView *)view{
     NSString *musicId = [GLMusicPlayer defaultPlayer].model.music_id;
     if ([GLMusicPlayer defaultPlayer].model.music_id == nil) {
         return;
     }
-
+    view.collectionButton.enabled = NO;
     __weak typeof(self) weakSelf = self;
     [self collectionUpdate:view.collectionButton.selected];
-    if (view.collectionButton.selected) {
+    if (!view.collectionButton.selected) {
 
         [self.request musicCollectionRequestMusicId:musicId Success:^(id  _Nonnull object) {
-
+            view.collectionButton.enabled = YES;
             BOOL responseDictionary = [object[@"success"] boolValue];
             if (responseDictionary == NO) {
-                UIAlertController *alter = [UIAlertController alertControllerWithTitle:@"提示" message:object[@"message"] preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-
-                }];
-                [alter addAction:action];
-                [weakSelf presentViewController:alter animated:YES completion:^{}];
+                if ([[NSString stringWithFormat:@"%@",object[@"resultCode"]] isEqualToString:@"-100"]) {
+                    [self loginTips:view];
+                }else if ([[NSString stringWithFormat:@"%@",object[@"resultCode"]] isEqualToString:@"-1"]) {
+                    [self musicPlayerCollection:view State:YES];
+                }else{
+                    UIAlertController *alter = [UIAlertController alertControllerWithTitle:@"提示" message:object[@"message"] preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                        
+                    }];
+                    [alter addAction:action];
+                    [weakSelf presentViewController:alter animated:YES completion:^{}];
+                }
+                
             }else{
-//                [weakSelf collectionUpdate:YES];
+                [self musicPlayerCollection:view State:YES];
             }
-
         } fail:^(FAILCODE stateCode, NSString * _Nonnull error) {
-
+            view.collectionButton.enabled = YES;
         }];
     }else{
 
         [self.request musicDeleteCollectionRequestMusicId:musicId Success:^(id  _Nonnull object) {
-
+            view.collectionButton.enabled = YES;
             BOOL responseDictionary = [object[@"success"] boolValue];
             if (responseDictionary == NO) {
-                UIAlertController *alter = [UIAlertController alertControllerWithTitle:@"提示" message:object[@"message"] preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-
-                }];
-                [alter addAction:action];
-                [weakSelf presentViewController:alter animated:YES completion:^{}];
+                if ([[NSString stringWithFormat:@"%@",object[@"resultCode"]] isEqualToString:@"-100"]) {
+                    [self loginTips:view];
+                }else if ([[NSString stringWithFormat:@"%@",object[@"resultCode"]] isEqualToString:@"-1"]) {
+                    [self musicPlayerCollection:view State:NO];
+                }else{
+                    UIAlertController *alter = [UIAlertController alertControllerWithTitle:@"提示" message:object[@"message"] preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                        
+                    }];
+                    [alter addAction:action];
+                    [weakSelf presentViewController:alter animated:YES completion:^{}];
+                }
             }else{
-
+                [self musicPlayerCollection:view State:NO];
             }
-
         } fail:^(FAILCODE stateCode, NSString * _Nonnull error) {
-
+            view.collectionButton.enabled = YES;
         }];
     }
 
@@ -644,15 +674,35 @@
     [self.request writeToFileArray:[XJAlbumAllData parseDictionaryModel:allData] byAppendingPath:kAlbumFile];
 }
 
+-(void)musicPlayerControlViewBack:(GLMusicPlayerControlView *)view{
+    if (self.playerControlView.palyMusicButton.selected == NO) {
+        [[GLMusicPlayer defaultPlayer] pause];
+    }
+    
+    self.backBlock(YES);
+    [self dismiss:^{}];
+    
+    if (self.navigationController != nil && self.navigationController.viewControllers.count <= 1){
+    }
+    [self popToRootViewControllerAnimation:YES completion:nil];
+}
+
 -(void)backAction:(id)sender{
     if (self.playerControlView.palyMusicButton.selected == NO) {
         [[GLMusicPlayer defaultPlayer] pause];
     }
-
+    
+    self.backBlock(NO);
+    [self dismiss:^{
+        //            if ([self.delegate respondsToSelector:@selector(finishDismiss:)]){
+        //                [self.delegate finishDismiss:self];
+        //            }
+        
+        
+    }];
+    
     if (self.navigationController != nil && self.navigationController.viewControllers.count <= 1){
-        [self dismiss:^{
-
-        }];
+        
     }
     [self popToRootViewControllerAnimation:YES completion:nil];
 }
@@ -679,30 +729,20 @@
 
 - (void)addViewConstraints
 {
-    float navHeight = 64;
-    if (self.view.frame.size.height == 812)
-    {
-        navHeight = 88;
-    }
-//    [self.playerCustomNav mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.leading.trailing.top.equalTo(self.view);
-//        make.height.mas_equalTo(navHeight);
-//    }];
-
 
     [self.musicTitleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.top).offset(105*(ScreenHeight/667) -64);
+        make.top.equalTo(self.view.top).offset(100*(ScreenHeight/640) -64);
         make.left.equalTo(self.view).offset(20);
         make.right.equalTo(self.view).offset(-20);
     }];
     [self.lrcTableView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.top).offset(105*(ScreenHeight/667)-44  +80);//80
-        make.bottom.equalTo(self.view.bottom).offset(-220);
+        make.top.equalTo(self.view.top).offset(105*(ScreenHeight/640)-44  +80);//80
+        make.bottom.equalTo(self.view.bottom).offset(-180);
         make.left.right.equalTo(self.view);
     }];
     [self.coverView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
-        make.top.equalTo(self.view.top).offset(105*(ScreenHeight/667)-34 +50*(ScreenHeight/667));//80
+        make.top.equalTo(self.view.top).offset(105*(ScreenHeight/640)-34 +50*(ScreenHeight/640));//80
         make.height.mas_equalTo(ScreenWidth-70);
     }];
 
@@ -836,12 +876,6 @@
 }
 
 #pragma mark == UITableViewDelegate
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return 40;
-//}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -981,8 +1015,6 @@
     }];
 }
 
-//@property (nonatomic, strong) NSString *playingMusicId;
-//@property (nonatomic, strong) NSString *playingAlbumId;
 - (void)playFirstMusic:(NSArray *)musicList{
 
     if (musicList.count > 0) {

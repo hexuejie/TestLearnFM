@@ -124,8 +124,21 @@
         }
         [self.tableView reloadData];
     }
+    
+    [GLMusicPlayer defaultPlayer].isLocked = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LockScreenNotifyClick) name:@"LockScreenNotify" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(UnLockScreenNotifyClick) name:@"UnLockScreenNotify" object:nil];
 }
 
+- (void)LockScreenNotifyClick{
+    [GLMusicPlayer defaultPlayer].isLocked = YES;
+}
+- (void)UnLockScreenNotifyClick{
+    [GLMusicPlayer defaultPlayer].isLocked = NO;
+}
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)contentRefresh{
     
     self.dataArray = [self.request musicGetLocalDataRadioId:self.album.catalog_id];

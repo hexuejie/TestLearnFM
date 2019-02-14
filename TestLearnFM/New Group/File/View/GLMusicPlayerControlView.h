@@ -12,6 +12,7 @@
 #import "GLMusicPlayer.h"
 #import "XJNoticeHelpView.h"
 #import "public.h"
+#import "XJTokenTipsView.h"
 
 @class GLMusicPlayerControlView;
 @protocol GLMusicPlayerControlViewDelegate <NSObject>
@@ -24,6 +25,8 @@
 
 -(void)musicPlayerControlViewNext:(GLMusicPlayerControlView *)view;
 -(void)musicPlayerControlViewFront:(GLMusicPlayerControlView *)view;
+
+-(void)musicPlayerControlViewBack:(GLMusicPlayerControlView *)view;
 @end
 
 
@@ -40,7 +43,7 @@
 
 @property (strong, nonatomic) UIButton *collectionButton;
 
-
+@property (nonatomic, strong) XJTokenTipsView *tokentipView;
 
 //播放方法按钮
 @property (nonatomic,strong) UIButton *playModeButton;

@@ -41,5 +41,6 @@ pathForResource:name ofType:@"png"]]
 
 //#ifdef YES
 
-#define KRequestSingle @"single_api"
-#define KRequestFM @"http://192.168.1.181:8050/ParentServer/"
+#define KRequestSingle @"/single_api"
+#define KRequestFM @"http://218.76.7.150:8080/ajiau-api/ParentServer"
+//http://218.76.7.150:8080/ajiau-api/ParentServer

@@ -45,7 +45,7 @@
 #define kAdaptive(width)    ADAPTATIONRATIO * width
 //
 //  导航栏高度[statusBar + NavigationBar]-------------------------------------------
-#define NAVBAR_HEIGHT       (IS_58INCH ? 88.0f : 64.0f)
+#define NAVBAR_HEIGHT     64.0f  //(IS_58INCH ? 88.0f : 64.0f)
 //
 #define STATUSBAR_HEIGHT    20.0f
 //

@@ -24,10 +24,10 @@
 
 - (void)idCheck{
     if ([GLMusicPlayer defaultPlayer].authToken == nil) {
-        [GLMusicPlayer defaultPlayer].authToken = AuthToken;
+//        [GLMusicPlayer defaultPlayer].authToken = AuthToken;
     }
     if ([GLMusicPlayer defaultPlayer].studentid == nil) {
-        [GLMusicPlayer defaultPlayer].studentid = Studentid;
+//        [GLMusicPlayer defaultPlayer].studentid = Studentid;
     }
     if ([GLMusicPlayer defaultPlayer].requestFM == nil) {
         baseApi = [NSString stringWithFormat:@"%@%@",KRequestFM,KRequestSingle];
@@ -48,8 +48,16 @@
     request.timeoutInterval= 6.0f;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
-    [request setValue:[GLMusicPlayer defaultPlayer].authToken forHTTPHeaderField:@"auth-token"];
-    [request setValue:[GLMusicPlayer defaultPlayer].studentid forHTTPHeaderField:@"studentid"];
+    if ([GLMusicPlayer defaultPlayer].authToken == nil) {
+        [request setValue:@"" forHTTPHeaderField:@"auth-token"];
+    }else{
+        [request setValue:[GLMusicPlayer defaultPlayer].authToken forHTTPHeaderField:@"auth-token"];
+    }
+    if ([GLMusicPlayer defaultPlayer].studentid == nil) {
+        [request setValue:@"" forHTTPHeaderField:@"studentid"];
+    }else{
+        [request setValue:[GLMusicPlayer defaultPlayer].studentid forHTTPHeaderField:@"studentid"];
+    }
     [request setValue:@"true" forHTTPHeaderField:@"getMyFavorite"];
     // 设置body
     [request setHTTPBody:body];
@@ -63,7 +71,7 @@
                 fail(1,@"无数据");
                 return ;
             }
-            Status *status = [Status parseDictionary:responseDictionary];
+            Status *status = [Status parseDictionary:responseObject];
             if (!status.status || responseDictionary.count == 0) {
                 fail(status.code,status.msg);
                 return;
@@ -119,8 +127,16 @@
     request.timeoutInterval= 6.0f;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
-    [request setValue:[GLMusicPlayer defaultPlayer].authToken forHTTPHeaderField:@"auth-token"];
-    [request setValue:[GLMusicPlayer defaultPlayer].studentid forHTTPHeaderField:@"studentid"];
+    if ([GLMusicPlayer defaultPlayer].authToken == nil) {
+        [request setValue:@"" forHTTPHeaderField:@"auth-token"];
+    }else{
+        [request setValue:[GLMusicPlayer defaultPlayer].authToken forHTTPHeaderField:@"auth-token"];
+    }
+    if ([GLMusicPlayer defaultPlayer].studentid == nil) {
+        [request setValue:@"" forHTTPHeaderField:@"studentid"];
+    }else{
+        [request setValue:[GLMusicPlayer defaultPlayer].studentid forHTTPHeaderField:@"studentid"];
+    }
     // 设置body
     [request setHTTPBody:body];
     
@@ -133,7 +149,7 @@
                 fail(1,@"无数据");
                 return ;
             }
-            Status *status = [Status parseDictionary:responseDictionary];
+            Status *status = [Status parseDictionary:responseObject];
             if (!status.status) {
                 fail(status.code,status.msg);
                 return;
@@ -165,8 +181,16 @@
     request.timeoutInterval= 6.0f;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
-    [request setValue:[GLMusicPlayer defaultPlayer].authToken forHTTPHeaderField:@"auth-token"];
-    [request setValue:[GLMusicPlayer defaultPlayer].studentid forHTTPHeaderField:@"studentid"];
+    if ([GLMusicPlayer defaultPlayer].authToken == nil) {
+        [request setValue:@"" forHTTPHeaderField:@"auth-token"];
+    }else{
+        [request setValue:[GLMusicPlayer defaultPlayer].authToken forHTTPHeaderField:@"auth-token"];
+    }
+    if ([GLMusicPlayer defaultPlayer].studentid == nil) {
+        [request setValue:@"" forHTTPHeaderField:@"studentid"];
+    }else{
+        [request setValue:[GLMusicPlayer defaultPlayer].studentid forHTTPHeaderField:@"studentid"];
+    }
     [request setValue:musicId forHTTPHeaderField:@"audioId"];
     // 设置body
     [request setHTTPBody:body];
@@ -199,8 +223,16 @@
     request.timeoutInterval= 6.0f;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
-    [request setValue:[GLMusicPlayer defaultPlayer].authToken forHTTPHeaderField:@"auth-token"];
-    [request setValue:[GLMusicPlayer defaultPlayer].studentid forHTTPHeaderField:@"studentid"];
+    if ([GLMusicPlayer defaultPlayer].authToken == nil) {
+        [request setValue:@"" forHTTPHeaderField:@"auth-token"];
+    }else{
+        [request setValue:[GLMusicPlayer defaultPlayer].authToken forHTTPHeaderField:@"auth-token"];
+    }
+    if ([GLMusicPlayer defaultPlayer].studentid == nil) {
+        [request setValue:@"" forHTTPHeaderField:@"studentid"];
+    }else{
+        [request setValue:[GLMusicPlayer defaultPlayer].studentid forHTTPHeaderField:@"studentid"];
+    }
     [request setValue:musicId forHTTPHeaderField:@"audioId"];
     // 设置body
     [request setHTTPBody:body];
