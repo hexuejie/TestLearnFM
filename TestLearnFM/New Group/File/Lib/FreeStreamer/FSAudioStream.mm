@@ -416,9 +416,9 @@ public:
         if ([fsAudioStreamPrivateActiveSessions count] == 0) {
             if (self.configuration.automaticAudioSessionHandlingEnabled) {
 #if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 60000)
-                [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+                [[AVAudioSession sharedInstance] setActive:YES withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
 #else
-                [[AVAudioSession sharedInstance] setActive:NO error:nil];
+                [[AVAudioSession sharedInstance] setActive:YES error:nil];
 #endif
             }
         }
@@ -818,9 +818,9 @@ public:
         if ([fsAudioStreamPrivateActiveSessions count] == 0) {
             if (self.configuration.automaticAudioSessionHandlingEnabled) {
 #if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 60000)
-                [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+                [[AVAudioSession sharedInstance] setActive:YES withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
 #else
-                [[AVAudioSession sharedInstance] setActive:NO error:nil];
+                [[AVAudioSession sharedInstance] setActive:YES error:nil];
 #endif
             }
         }
@@ -881,9 +881,9 @@ public:
         if ([fsAudioStreamPrivateActiveSessions count] == 0) {
             if (self.configuration.automaticAudioSessionHandlingEnabled) {
 #if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 60000)
-                [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+                [[AVAudioSession sharedInstance] setActive:YES withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
 #else
-                [[AVAudioSession sharedInstance] setActive:NO error:nil];
+                [[AVAudioSession sharedInstance] setActive:YES error:nil];
 #endif
             }
         }

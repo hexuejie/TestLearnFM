@@ -36,6 +36,7 @@
 #import "GLMiniMusicView.h"
 #import "XJAlbumList.h"
 #import <AVFoundation/AVFoundation.h>
+#import "GLMusicPlayer.h"
 
 #define TableHeight ScreenHeight*3/5
 
@@ -237,8 +238,19 @@
     [session setCategory:AVAudioSessionCategoryPlayback error:nil];
 
 //    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+
+//    //增加监听
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(appHasGoneInForeground)
+//                                                 name:UIApplicationWillEnterForegroundNotification
+//                                               object:nil];
+//    //别忘了删除监听
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)appHasGoneInForeground{
+    [[GLMusicPlayer defaultPlayer] play];
+}
 
 - (void)testMedthLookout{
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -676,9 +688,10 @@
 
 -(void)musicPlayerControlViewBack:(GLMusicPlayerControlView *)view{
     if (self.playerControlView.palyMusicButton.selected == NO) {
-        [[GLMusicPlayer defaultPlayer] pause];
+//        [[GLMusicPlayer defaultPlayer] pause];
+        //点击停止按钮
+        [[GLMusicPlayer defaultPlayer] stop];
     }
-    
     self.backBlock(YES);
     [self dismiss:^{}];
     
@@ -689,7 +702,7 @@
 
 -(void)backAction:(id)sender{
     if (self.playerControlView.palyMusicButton.selected == NO) {
-        [[GLMusicPlayer defaultPlayer] pause];
+        [[GLMusicPlayer defaultPlayer] stop];
     }
     
     self.backBlock(NO);
@@ -697,8 +710,6 @@
         //            if ([self.delegate respondsToSelector:@selector(finishDismiss:)]){
         //                [self.delegate finishDismiss:self];
         //            }
-        
-        
     }];
     
     if (self.navigationController != nil && self.navigationController.viewControllers.count <= 1){

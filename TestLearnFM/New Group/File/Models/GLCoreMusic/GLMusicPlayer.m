@@ -112,6 +112,7 @@
         [player setVolume:0.5];
         //设置播放速率
         [player setPlayRate:1];
+        
 //        player.loopState = GLOnceLoop;
     });
     return player;
@@ -136,7 +137,7 @@
 #pragma mark == private method - 锁屏展示部分
 - (void)showLockScreenCurrentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime
 {
-    NSLog(@"isLocked   %ld",[GLMusicPlayer defaultPlayer].isLocked);
+  
     if ([GLMusicPlayer defaultPlayer].isLocked) {//
         NSMutableDictionary *musicInfoDict = [[NSMutableDictionary alloc] init];
 
@@ -289,7 +290,7 @@
 {
     if (index < self.musicListArray.count) {
         _currentIndex = index;
-        
+        [self stop];
         [self playFromURL:[self.musicListArray objectAtIndex:index]];
     }
 }

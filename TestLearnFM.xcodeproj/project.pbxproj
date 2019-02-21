@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1037F0A22151CD200B50E1C /* Am1r-Right Now (Na Na Na).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1037F0922151CD200B50E1C /* Am1r-Right Now (Na Na Na).mp3 */; };
 		A112C62721C883050016E320 /* XJTokenTipsView.m in Sources */ = {isa = PBXBuildFile; fileRef = A112C62621C883050016E320 /* XJTokenTipsView.m */; };
 		A113D67F218AEB320062982C /* ColorCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = A113D67E218AEB320062982C /* ColorCircleView.m */; };
 		A11410672195366300FA65BB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A11410662195366200FA65BB /* UIKit.framework */; };
@@ -167,6 +168,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A1037F0922151CD200B50E1C /* Am1r-Right Now (Na Na Na).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Am1r-Right Now (Na Na Na).mp3"; sourceTree = "<group>"; };
 		A112C62521C883050016E320 /* XJTokenTipsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XJTokenTipsView.h; sourceTree = "<group>"; };
 		A112C62621C883050016E320 /* XJTokenTipsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XJTokenTipsView.m; sourceTree = "<group>"; };
 		A113D67D218AEB320062982C /* ColorCircleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorCircleView.h; sourceTree = "<group>"; };
@@ -528,6 +530,7 @@
 				A11769662189402000E83734 /* AppDelegate.m */,
 				A113D67D218AEB320062982C /* ColorCircleView.h */,
 				A113D67E218AEB320062982C /* ColorCircleView.m */,
+				A1037F0922151CD200B50E1C /* Am1r-Right Now (Na Na Na).mp3 */,
 				A11769682189402000E83734 /* ViewController.h */,
 				A11769692189402000E83734 /* ViewController.m */,
 				A117696B2189402000E83734 /* Main.storyboard */,
@@ -1168,6 +1171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A11769722189402100E83734 /* LaunchScreen.storyboard in Resources */,
+				A1037F0A22151CD200B50E1C /* Am1r-Right Now (Na Na Na).mp3 in Resources */,
 				A117696F2189402100E83734 /* Assets.xcassets in Resources */,
 				A117696D2189402000E83734 /* Main.storyboard in Resources */,
 			);

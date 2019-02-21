@@ -39,6 +39,8 @@ typedef NS_ENUM(NSInteger,GLLoopState){
 
 @interface GLMusicPlayer : FSAudioStream
 
+
+- (void)stop;
 /**
  *
  播放列表

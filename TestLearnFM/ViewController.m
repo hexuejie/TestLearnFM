@@ -14,8 +14,12 @@
 //#import "GLMusicPlayer.h"
 //#import <LearnFM/LearnFM.h>
 #import "ColorCircleView.h"
+ #import <AVFoundation/AVFoundation.h>
+
 @interface ViewController ()<GLMusicPlayViewControllerDelegate>
 
+@property (nonatomic, retain)AVAudioPlayer *player;
+@property (nonatomic, strong) UIButton * musicbtn;
 @end
 
 @implementation ViewController
@@ -47,9 +51,56 @@
 //    circleView.circleArray = @[dic1,dic2,dic4,dic3];
 //    [self.view addSubview:circleView];
 //    [UIApplication sharedApplication].keyWindow.frame = CGRectMake(0, 30, 375, 812-30);
+       
+    
+    /* 获取本地文件 */
+    NSBundle *bundle = [NSBundle mainBundle];
+    
+    NSString *urlString = [bundle pathForResource:@"Am1r-Right Now (Na Na Na)" ofType:@"mp3"];
+    
+    /* 初始化url */
+    NSURL *url = [[NSURL alloc] initFileURLWithPath:urlString];
+    
+    /* 初始化音频文件 */
+    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+    
+    /* 加载缓冲 */
+    [self.player prepareToPlay];
+    
+    
+     _musicbtn = [[UIButton alloc]init];
+    [_musicbtn addTarget:self action:@selector(musicClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_musicbtn setFrame:CGRectMake(150, 300, 100, 60)];
+    
+    [_musicbtn setTitle:@"播放" forState:UIControlStateNormal];
+    [_musicbtn setTitle:@"停止" forState:UIControlStateSelected];
+    [_musicbtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+//    [musicbtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    _musicbtn.backgroundColor = [UIColor greenColor];
+    [self.view addSubview:_musicbtn];
 }
 
+- (void)musicClick:(UIButton *)button{
+    
+    if (button.selected == NO) {
+        [self.player play];
+        button.selected = YES;
+    }else{
+        button.selected = NO;
+        [self.player pause];
+    }
+}
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    if (_musicbtn.selected == NO) {
+   
+    }else{
+        _musicbtn.selected = NO;
+        [self.player pause];
+    }
+}
 
 - (void)btnAction:(id)sender{
     

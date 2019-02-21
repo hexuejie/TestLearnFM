@@ -22,6 +22,7 @@
 - (void)dealloc
 {
     self.delegate = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(id)initWithRootViewController:(UIViewController *)rootViewController{
@@ -51,7 +52,19 @@
     [self setCustomNavigationBackButton];
     
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    //    //增加监听
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(appHasGoneInForeground)
+                                                     name:UIApplicationWillEnterForegroundNotification
+                                                   object:nil];
+        //别忘了删除监听
+    
 }
+
+- (void)appHasGoneInForeground{
+    [[GLMusicPlayer defaultPlayer] play];
+}
+
 
 #pragma mark == event response
 -(void)remoteControlReceivedWithEvent:(UIEvent *)event{
