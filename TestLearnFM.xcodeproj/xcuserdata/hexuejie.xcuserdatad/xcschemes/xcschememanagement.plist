@@ -9,6 +9,29 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>TestLearnFM.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>A11769612189402000E83734</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A11769792189402100E83734</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A11769842189402100E83734</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>

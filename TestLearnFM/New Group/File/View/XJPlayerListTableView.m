@@ -110,7 +110,9 @@
     self.tableView.dataSource = self;
     [self.tableView registerClass:[XJMusicTableViewCell class] forCellReuseIdentifier:@"musiclist"];
     [self addSubview:self.tableView];
-    
+//
+//    self.tableView.estimatedSectionHeaderHeight = 0.01;
+//    self.tableView.estimatedSectionFooterHeight = 10;
 //    self.tableView.layer.cornerRadius = 6;
 //    self.tableView.layer.masksToBounds = YES;
     
@@ -142,10 +144,12 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)section NS_AVAILABLE_IOS(7_0){
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.01;
 }
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section NS_AVAILABLE_IOS(7_0){
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 0.01;
 }
 
